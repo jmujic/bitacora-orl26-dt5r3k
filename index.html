@@ -264,11 +264,69 @@
       .verdict h3{font-family:var(--dspl); font-weight:600; font-size:17px; margin-bottom:6px}
       .ol{margin:0; padding-left:20px; display:flex; flex-direction:column; gap:7px; font-size:15px}
       .ol li span{color:var(--muted)}
+
+      .scan-btn{display:inline-flex; align-items:center; gap:7px; font:inherit; font-size:14.5px; font-weight:600;
+        background:var(--accent); color:var(--accent-ink); border:0; border-radius:11px; padding:11px 16px; cursor:pointer}
+      .scan-btn.secondary{background:var(--surface-2); color:var(--fg); border:1px solid var(--line)}
+      .scan-rate{display:flex; align-items:center; justify-content:space-between; gap:10px; font-size:13px; color:var(--muted); margin-bottom:12px}
+      .scan-rate input{width:64px; font:inherit; font-family:var(--mono); background:var(--surface-2); color:var(--fg);
+        border:1px solid var(--line); border-radius:7px; padding:4px 7px; text-align:right}
+      #scan-status{background:var(--surface-2); border-radius:10px; padding:9px 11px; margin-bottom:10px}
+      #scan-form{background:var(--surface-2); border:1px solid var(--line); border-radius:12px; padding:12px; margin-bottom:12px; display:flex; flex-direction:column; gap:9px}
+      #scan-form label{font-size:12.5px; color:var(--muted); display:block; margin-bottom:3px}
+      #scan-form input, #scan-form select{width:100%; font:inherit; font-size:15px; background:var(--surface); color:var(--fg);
+        border:1px solid var(--line); border-radius:9px; padding:8px 10px; box-sizing:border-box}
+      #scan-form .row2{display:flex; gap:9px}
+      #scan-form .row2>div{flex:1}
+      .exp-item{display:flex; justify-content:space-between; align-items:flex-start; gap:10px; padding:9px 0; border-top:1px solid var(--line)}
+      .exp-item .nm{font-size:14.5px; font-weight:600}
+      .exp-item .sub{display:block; color:var(--muted); font-size:12.5px; margin-top:1px}
+      .exp-item .amt{text-align:right; font-family:var(--mono); font-size:14px; white-space:nowrap}
+      .exp-item .amt .mxn{display:block; color:var(--muted); font-size:12px}
+      .exp-item .amt .save{display:block; color:var(--good); font-size:12px}
+      .exp-del{flex:none; background:none; border:0; color:var(--faint); cursor:pointer; font-size:16px; line-height:1; padding:2px 4px}
+      #exp-empty{color:var(--muted); font-size:13.5px; padding:6px 0}
+      #exp-summary{display:flex; flex-direction:column; gap:4px; font-size:14.5px}
+      #exp-summary .tot b{color:var(--accent)}
     </style>
 
     <div class="eyebrow">Outlet · análisis</div>
     <h2 class="section-title">Compras</h2>
     <p class="lead">Orlando International Premium Outlets — 4951 International Dr, ~10 min del hotel, <b>167 tiendas</b>. La lógica aquí no es exclusividad sino el <b>descuento de fábrica</b>: outlet americano contra precio de lista mexicano. En la mayoría de marcas es 40-70 % menos aun existiendo en México; en las que no están en México, es la única oportunidad.</p>
+
+    <div class="eyebrow">🏷️ Escáner y mis compras</div>
+    <div class="card">
+      <p class="meta" style="margin-top:0">Apunta a la etiqueta y lee el precio. Solo se compara contra el precio de lista en EE. UU. cuando lo tenemos verificado — nunca contra México, porque esa cifra no se pudo confirmar. Si el artículo no está en el catálogo, se calcula el precio en pesos y ya, sin inventar un ahorro. Todo se queda guardado en este teléfono, no se manda a ningún lado.</p>
+      <div class="scan-rate"><span>Tipo de cambio hoy</span><span>1 USD = <input type="number" id="fx-rate" step="0.01" value="18.1"> MXN</span></div>
+      <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:4px">
+        <label class="scan-btn" for="scan-input">📷 Escanear etiqueta</label>
+        <input type="file" accept="image/*" capture="environment" id="scan-input" style="display:none">
+        <button class="scan-btn secondary" id="manual-add-btn" type="button">✏️ Agregar a mano</button>
+      </div>
+      <div id="scan-status" style="display:none"></div>
+      <div id="scan-form" style="display:none">
+        <div><label>Artículo</label><input type="text" id="f-nombre" placeholder="Ej. TUMI Alpha carry-on"></div>
+        <div class="row2">
+          <div><label>Precio pagado (USD)</label><input type="number" id="f-usd" step="0.01" inputmode="decimal"></div>
+          <div><label>Categoría</label><select id="f-cat">
+            <option value="Ropa">Ropa</option>
+            <option value="Calzado">Calzado</option>
+            <option value="Piel y bolsas">Piel y bolsas</option>
+            <option value="Belleza">Belleza</option>
+            <option value="Boletos / entretenimiento">Boletos / entretenimiento</option>
+            <option value="Comida">Comida</option>
+            <option value="Otro">Otro</option>
+          </select></div>
+        </div>
+        <div style="display:flex; gap:8px">
+          <button class="scan-btn" id="save-exp-btn" type="button">Guardar</button>
+          <button class="scan-btn secondary" id="cancel-exp-btn" type="button">Cancelar</button>
+        </div>
+      </div>
+      <div id="exp-list"></div>
+      <div id="exp-empty">Nada registrado todavía.</div>
+      <div id="exp-summary"></div>
+    </div>
 
     <div class="eyebrow">El marco · verificado 1 oct</div>
     <div class="card">
@@ -588,6 +646,173 @@
       document.documentElement.setAttribute('data-theme', next);
       try{ localStorage.setItem('orl-theme', next); }catch(e){}
     });
+  })();
+
+  // ===== Escáner de etiqueta + mis compras (2 oct 2026) =====
+  (function(){
+    var LS_KEY = 'orl-gastos-v1';
+    var LS_FX = 'orl-fx-rate';
+    var TAX = 1.065; // Orange County, 6.0% estatal + 0.5% condado — no viene en la etiqueta
+    // Catálogo verificado 1 oct (claude/analisis-compras-orlando.md) — solo contra lista US,
+    // nunca contra México porque esa cifra no se pudo confirmar. Fuera de estos 7, sin ahorro mostrado.
+    var CATALOGO = [
+      { kw:["carry-on dual","carry on dual","tumi alpha"], nombre:"TUMI Alpha — carry-on Dual Access", lista_us:950 },
+      { kw:["voyageur","celina"], nombre:"TUMI Voyageur — mochila (Celina)", lista_us:495 },
+      { kw:["nuptse","1996 retro"], nombre:"The North Face — 1996 Retro Nuptse", lista_us:380 },
+      { kw:["classic short"], nombre:"UGG — Classic Short II", lista_us:195 },
+      { kw:["air force 1","air force1","af1"], nombre:"Nike — Air Force 1 '07", lista_us:115 },
+      { kw:["501"], nombre:"Levi's — 501 Original", lista_us:85 },
+      { kw:["3 mechas","3-wick","3 wick"], nombre:"Bath & Body Works — vela 3 mechas", lista_us:26.95 }
+    ];
+
+    var fxInput = document.getElementById('fx-rate');
+    var savedFx = null; try{ savedFx = localStorage.getItem(LS_FX); }catch(e){}
+    if (savedFx) fxInput.value = savedFx;
+    fxInput.addEventListener('change', function(){ try{ localStorage.setItem(LS_FX, fxInput.value); }catch(e){} });
+    function rate(){ var v = parseFloat(fxInput.value); return (v>0) ? v : 18.1; }
+
+    function loadGastos(){ try{ return JSON.parse(localStorage.getItem(LS_KEY)||'[]'); }catch(e){ return []; } }
+    function saveGastos(list){ try{ localStorage.setItem(LS_KEY, JSON.stringify(list)); }catch(e){} }
+    function matchCatalogo(nombre){
+      var n = (nombre||'').toLowerCase();
+      for (var i=0;i<CATALOGO.length;i++){
+        var c = CATALOGO[i];
+        for (var j=0;j<c.kw.length;j++){ if (n.indexOf(c.kw[j]) !== -1) return c; }
+      }
+      return null;
+    }
+    function escHtml(s){
+      return String(s==null?'':s).replace(/[&<>"]/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; });
+    }
+
+    var listEl = document.getElementById('exp-list');
+    var emptyEl = document.getElementById('exp-empty');
+    var sumEl = document.getElementById('exp-summary');
+
+    function renderGastos(){
+      var items = loadGastos();
+      listEl.innerHTML = '';
+      if (!items.length){ emptyEl.style.display='block'; sumEl.style.display='none'; return; }
+      emptyEl.style.display = 'none';
+      var totalUsd=0, totalMxn=0, ahorroUsd=0, haySavings=false;
+      items.slice().reverse().forEach(function(it){
+        totalUsd += it.usd; totalMxn += it.mxn;
+        var saveHtml = '';
+        if (it.ahorroUsd != null){
+          ahorroUsd += it.ahorroUsd; haySavings = true;
+          saveHtml = '<span class="save">ahorras $'+it.ahorroUsd.toFixed(0)+' vs. lista US</span>';
+        }
+        var row = document.createElement('div');
+        row.className = 'exp-item';
+        row.innerHTML =
+          '<div><span class="nm">'+escHtml(it.nombre)+'</span><span class="sub">'+escHtml(it.cat)+'</span></div>'+
+          '<div style="display:flex; align-items:flex-start; gap:8px">'+
+            '<div class="amt">$'+it.usd.toFixed(2)+' USD<span class="mxn">≈ $'+Math.round(it.mxn).toLocaleString('es-MX')+' MXN</span>'+saveHtml+'</div>'+
+            '<button class="exp-del" data-id="'+it.id+'" title="Borrar">✕</button>'+
+          '</div>';
+        listEl.appendChild(row);
+      });
+      listEl.querySelectorAll('.exp-del').forEach(function(b){
+        b.addEventListener('click', function(){
+          var id = b.getAttribute('data-id');
+          saveGastos(loadGastos().filter(function(x){ return String(x.id)!==id; }));
+          renderGastos();
+        });
+      });
+      sumEl.style.display = 'flex';
+      sumEl.innerHTML =
+        '<div class="tot">Total gastado: <b>$'+totalUsd.toFixed(2)+' USD</b> (≈ $'+Math.round(totalMxn).toLocaleString('es-MX')+' MXN)</div>'+
+        (haySavings ? '<div class="tot">Ahorrado vs. precio de lista US (donde se pudo verificar): <b>$'+ahorroUsd.toFixed(0)+' USD</b></div>' : '');
+    }
+
+    var formEl = document.getElementById('scan-form');
+    var statusEl = document.getElementById('scan-status');
+    var fNombre = document.getElementById('f-nombre');
+    var fUsd = document.getElementById('f-usd');
+    var fCat = document.getElementById('f-cat');
+
+    function openForm(prefillNombre, prefillUsd){
+      formEl.style.display = 'flex';
+      fNombre.value = prefillNombre || '';
+      fUsd.value = (prefillUsd!=null) ? prefillUsd : '';
+      fCat.value = 'Ropa';
+      formEl.scrollIntoView({behavior:'smooth', block:'nearest'});
+    }
+    function closeForm(){ formEl.style.display = 'none'; statusEl.style.display = 'none'; }
+
+    document.getElementById('manual-add-btn').addEventListener('click', function(){ openForm('', null); });
+    document.getElementById('cancel-exp-btn').addEventListener('click', closeForm);
+    document.getElementById('save-exp-btn').addEventListener('click', function(){
+      var usd = parseFloat(fUsd.value);
+      if (!(usd>0)){ fUsd.focus(); return; }
+      var nombre = fNombre.value.trim() || 'Artículo sin nombre';
+      var cat = fCat.value;
+      var mxn = usd * TAX * rate();
+      var match = matchCatalogo(nombre);
+      var ahorroUsd = (match && match.lista_us > usd) ? (match.lista_us - usd) : null;
+      var items = loadGastos();
+      items.push({ id: Date.now(), nombre: nombre, cat: cat, usd: usd, mxn: mxn, ahorroUsd: ahorroUsd });
+      saveGastos(items);
+      closeForm();
+      renderGastos();
+    });
+
+    // --- lectura de etiqueta (Tesseract.js, cargado solo al usarlo) ---
+    var scanInput = document.getElementById('scan-input');
+    var tesseractLoading = null;
+    function ensureTesseract(){
+      if (window.Tesseract) return Promise.resolve();
+      if (tesseractLoading) return tesseractLoading;
+      tesseractLoading = new Promise(function(resolve, reject){
+        var s = document.createElement('script');
+        s.src = 'https://cdn.jsdelivr.net/npm/tesseract.js@6.0.1/dist/tesseract.min.js';
+        s.onload = resolve;
+        s.onerror = function(){ reject(new Error('no-cdn')); };
+        document.head.appendChild(s);
+      });
+      return tesseractLoading;
+    }
+    function parseEtiqueta(text){
+      var lines = String(text||'').split(/\r?\n/).map(function(l){ return l.trim(); }).filter(Boolean);
+      var descartar = /\b(SIZE|REF|SKU|UPC|STYLE|TALLA|TAILLE|ML|CM|UK|EU)\b/i;
+      var limpias = lines.filter(function(l){ return !descartar.test(l); });
+      var mejor = null;
+      limpias.forEach(function(l){
+        var nums = l.match(/\$?\s?\d{1,4}(?:\.\d{2})?/g) || [];
+        nums.forEach(function(n){
+          var v = parseFloat(n.replace(/[^\d.]/g,''));
+          if (!isNaN(v) && v>0 && v<5000 && (mejor===null || v>mejor)) mejor = v;
+        });
+      });
+      var nombre = '';
+      limpias.forEach(function(l){ if (!/\d/.test(l) && l.length > nombre.length && l.length>=3) nombre = l; });
+      return { precio: mejor, nombre: nombre };
+    }
+    scanInput.addEventListener('change', function(){
+      var file = scanInput.files && scanInput.files[0];
+      scanInput.value = '';
+      if (!file) return;
+      formEl.style.display = 'none';
+      statusEl.style.display = 'block';
+      statusEl.textContent = 'Cargando el lector…';
+      ensureTesseract().then(function(){
+        statusEl.textContent = 'Leyendo la etiqueta…';
+        return Tesseract.createWorker('eng');
+      }).then(function(worker){
+        return worker.recognize(file).then(function(result){
+          worker.terminate();
+          return result.data.text || '';
+        });
+      }).then(function(text){
+        var parsed = parseEtiqueta(text);
+        statusEl.style.display = 'none';
+        openForm(parsed.nombre, parsed.precio);
+      }).catch(function(){
+        statusEl.textContent = 'No se pudo leer (sin señal para el lector, o etiqueta poco clara). Usa «Agregar a mano».';
+      });
+    });
+
+    renderGastos();
   })();
 
   renderDays();
