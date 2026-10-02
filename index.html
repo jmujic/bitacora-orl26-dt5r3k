@@ -42,6 +42,8 @@
   h1,h2,h3{text-wrap:balance; margin:0}
   a{color:inherit}
   .mono{font-family:var(--mono)}
+  a.loc{color:var(--accent); text-decoration:none; font-size:.92em; white-space:nowrap}
+  a.loc:active{opacity:.6}
 
   /* ---- Header ---- */
   header{
@@ -212,7 +214,7 @@
 
     <div class="card">
       <div class="tk-head"><h3>Hotel · La Quinta by Wyndham</h3><span class="ref">#6217505139</span></div>
-      <div class="kv"><span class="k">Dirección</span><span class="v">8504 Universal Blvd, I-Drive/Conv Ctr</span></div>
+      <div class="kv"><span class="k">Dirección</span><span class="v">8504 Universal Blvd, I-Drive/Conv Ctr <a class="loc" href="https://www.google.com/maps/dir/?api=1&destination=8504+Universal+Blvd,+Orlando,+FL+32819" target="_blank" rel="noopener">📍 cómo llegar</a></span></div>
       <div class="kv"><span class="k">Estancia</span><span class="v">Vie 2 (desde 15:00) → Mar 6 (hasta 11:00)</span></div>
       <div class="kv"><span class="k">Habitación</span><span class="v">Deluxe cama extragrande · desayuno incl.</span></div>
       <div class="kv"><span class="k">Total</span><span class="v">$335.66 USD · se paga en el hotel</span></div>
@@ -222,7 +224,7 @@
     <div class="card">
       <div class="tk-head"><h3>Cirque du Soleil · «Drawn to Life»</h3><span class="paid">✓ comprado</span></div>
       <div class="kv"><span class="k">Cuándo</span><span class="v">Sáb 3 oct · 8:00 PM</span></div>
-      <div class="kv"><span class="k">Lugar</span><span class="v">Teatro en Disney Springs</span></div>
+      <div class="kv"><span class="k">Lugar</span><span class="v">Teatro en Disney Springs <a class="loc" href="https://www.google.com/maps/dir/?api=1&destination=Disney+Springs,+Lake+Buena+Vista,+FL" target="_blank" rel="noopener">📍 cómo llegar</a></span></div>
       <div class="kv"><span class="k">Asientos</span><span class="v">Sección 102 · Fila A (primera) · 7-8</span></div>
       <div class="kv"><span class="k">Total</span><span class="v">$409.90 USD · boleto móvil</span></div>
       <p class="meta">Asientos de lado, no al centro (preferencia de Jorge). Entrada regular. Llegar al teatro ~15-20 min antes. El Cirque descansa domingo y lunes: la única noche buena era este sábado.</p>
@@ -231,13 +233,13 @@
     <div class="card">
       <div class="tk-head"><h3>Cena · Wine Bar George</h3><span class="ref">OpenTable 634623</span></div>
       <div class="kv"><span class="k">Cuándo</span><span class="v">Sáb 3 oct · 6:15 PM · 2 personas</span></div>
-      <div class="kv"><span class="k">Dónde</span><span class="v">Town Center de Disney Springs</span></div>
+      <div class="kv"><span class="k">Dónde</span><span class="v">Town Center de Disney Springs <a class="loc" href="https://www.google.com/maps/dir/?api=1&destination=Wine+Bar+George,+Disney+Springs,+Lake+Buena+Vista,+FL" target="_blank" rel="noopener">📍 cómo llegar</a></span></div>
       <p class="meta">A nombre de Jorge. El mejor calificado de Disney Springs (cocina americana, tablas y vinos). Antes del show: al terminar (~7:45) caminar al teatro en West Side (~10-15 min).</p>
     </div>
 
     <div class="card">
       <div class="tk-head"><h3>Renta de auto · Hertz</h3><span class="ref">L726E7E8182</span></div>
-      <div class="kv"><span class="k">Recogida</span><span class="v">MCO · vie 2 oct · 5:00 PM</span></div>
+      <div class="kv"><span class="k">Recogida</span><span class="v">MCO · vie 2 oct · 5:00 PM <a class="loc" href="https://www.google.com/maps/dir/?api=1&destination=Orlando+International+Airport,+FL" target="_blank" rel="noopener">📍 cómo llegar</a></span></div>
       <div class="kv"><span class="k">Devolución</span><span class="v">MCO · mar 6 oct · 1:00 PM</span></div>
       <div class="kv"><span class="k">Auto</span><span class="v">Small SUV AWD (B5) · Buick Encore GX o similar</span></div>
       <div class="kv"><span class="k">Total</span><span class="v">$339.56 USD · ya pagado, 1 semana</span></div>
@@ -411,13 +413,13 @@
 
     <div class="eyebrow">Fuera del outlet</div>
     <div class="card">
-      <div class="kv"><span class="k">CVS Pharmacy</span><span class="v addr">9188 International Dr · vie al llegar, camino al hotel</span></div>
-      <div class="kv"><span class="k">Walgreens</span><span class="v addr">8021 International Dr · vie al llegar, 24h</span></div>
-      <div class="kv"><span class="k">Wells Fargo</span><span class="v addr">Windermere · 4876 S Apopka Vineland · lun antes de Florida Mall</span></div>
-      <div class="kv"><span class="k">Target — Millenia</span><span class="v addr">4750 Millenia Plaza Way · lun de paso</span></div>
-      <div class="kv"><span class="k">The Florida Mall</span><span class="v addr">8001 S Orange Blossom Trl · lun, día completo (precio completo, no outlet)</span></div>
-      <div class="kv"><span class="k">T.J. Maxx</span><span class="v addr">5476 Fun Spot Way · de paso, cerca del hotel</span></div>
-      <div class="kv"><span class="k">Uniqlo — Disney Springs</span><span class="v addr">Town Center · sáb al salir del show, tienda grande (25,000 ft²)</span></div>
+      <div class="kv"><span class="k">CVS Pharmacy</span><span class="v addr">9188 International Dr · vie al llegar, camino al hotel <a class="loc" href="https://www.google.com/maps/dir/?api=1&destination=9188+International+Drive,+Orlando,+FL+32819" target="_blank" rel="noopener">📍</a></span></div>
+      <div class="kv"><span class="k">Walgreens</span><span class="v addr">8021 International Dr · vie al llegar, 24h <a class="loc" href="https://www.google.com/maps/dir/?api=1&destination=8021+International+Drive,+Orlando,+FL" target="_blank" rel="noopener">📍</a></span></div>
+      <div class="kv"><span class="k">Wells Fargo</span><span class="v addr">Windermere · 4876 S Apopka Vineland · lun antes de Florida Mall <a class="loc" href="https://www.google.com/maps/dir/?api=1&destination=4876+S+Apopka+Vineland+Rd,+Windermere,+FL" target="_blank" rel="noopener">📍</a></span></div>
+      <div class="kv"><span class="k">Target — Millenia</span><span class="v addr">4750 Millenia Plaza Way · lun de paso <a class="loc" href="https://www.google.com/maps/dir/?api=1&destination=4750+Millenia+Plaza+Way,+Orlando,+FL" target="_blank" rel="noopener">📍</a></span></div>
+      <div class="kv"><span class="k">The Florida Mall</span><span class="v addr">8001 S Orange Blossom Trl · lun, día completo (precio completo, no outlet) <a class="loc" href="https://www.google.com/maps/dir/?api=1&destination=8001+S+Orange+Blossom+Trail,+Orlando,+FL" target="_blank" rel="noopener">📍</a></span></div>
+      <div class="kv"><span class="k">T.J. Maxx</span><span class="v addr">5476 Fun Spot Way · de paso, cerca del hotel <a class="loc" href="https://www.google.com/maps/dir/?api=1&destination=5476+Fun+Spot+Way,+Orlando,+FL" target="_blank" rel="noopener">📍</a></span></div>
+      <div class="kv"><span class="k">Uniqlo — Disney Springs</span><span class="v addr">Town Center · sáb al salir del show, tienda grande (25,000 ft²) <a class="loc" href="https://www.google.com/maps/dir/?api=1&destination=Uniqlo,+Disney+Springs,+Lake+Buena+Vista,+FL" target="_blank" rel="noopener">📍</a></span></div>
       <p class="meta">El viernes ahora va directo del aeropuerto al hotel con dos paradas de farmacia (suplementos), no de ropa. El lunes cambió la segunda vuelta al outlet por un día completo en The Florida Mall. Marshalls queda como la única opcional de la zona sur, si sobra tiempo el domingo.</p>
     </div>
 
@@ -466,9 +468,9 @@
     <div class="eyebrow">Comida cubana</div>
     <div class="card">
       <div class="b-list">
-        <div class="b-row"><span class="nm"><b>Numero Uno Cuban</b> — downtown, el más recomendado</span><span class="tg">dom cena</span></div>
-        <div class="b-row"><span class="nm">Cuba Libre Rum Bar — International Dr, festivo</span><span class="tg">vie cena</span></div>
-        <div class="b-row"><span class="nm">Black Bean Deli — Winter Park, sándwiches</span><span class="tg">dom comida</span></div>
+        <div class="b-row"><span class="nm"><b>Numero Uno Cuban</b> — downtown, el más recomendado <a class="loc" href="https://www.google.com/maps/dir/?api=1&destination=Numero+Uno+Cuban+Restaurant,+S+Orange+Ave,+Orlando,+FL" target="_blank" rel="noopener">📍</a></span><span class="tg">dom cena</span></div>
+        <div class="b-row"><span class="nm">Cuba Libre Rum Bar — International Dr, festivo <a class="loc" href="https://www.google.com/maps/dir/?api=1&destination=Cuba+Libre+Restaurant+%26+Rum+Bar,+International+Dr,+Orlando,+FL" target="_blank" rel="noopener">📍</a></span><span class="tg">vie cena</span></div>
+        <div class="b-row"><span class="nm">Black Bean Deli — Winter Park, sándwiches <a class="loc" href="https://www.google.com/maps/dir/?api=1&destination=Black+Bean+Deli,+Winter+Park,+FL" target="_blank" rel="noopener">📍</a></span><span class="tg">dom comida</span></div>
         <div class="b-row"><span class="nm">Café Pinar — Sand Lake Rd, cerca del hotel</span><span class="tg">de paso</span></div>
       </div>
       <p class="meta">Conviene reservar Numero Uno / Cuba Libre si quieren asegurar mesa. La cena del sábado en Disney Springs ya está (Wine Bar George).</p>
@@ -477,9 +479,9 @@
     <div class="eyebrow">Desayuno</div>
     <div class="card">
       <div class="b-list">
-        <div class="b-row"><span class="nm"><b>Keke's Breakfast Cafe</b> — clásico local, hecho al momento</span><span class="tg">sáb 9am</span></div>
+        <div class="b-row"><span class="nm"><b>Keke's Breakfast Cafe</b> — clásico local, hecho al momento <a class="loc" href="https://www.google.com/maps/dir/?api=1&destination=4192+Conroy+Road,+Orlando,+FL" target="_blank" rel="noopener">📍</a></span><span class="tg">sáb 9am</span></div>
         <div class="b-row"><span class="nm">— Millenia, 4192 Conroy Rd (~10 min, de camino)</span><span class="tg">abre 7am</span></div>
-        <div class="b-row"><span class="nm"><b>First Watch</b> — desayuno/brunch de calidad</span><span class="tg">respaldo</span></div>
+        <div class="b-row"><span class="nm"><b>First Watch</b> — desayuno/brunch de calidad <a class="loc" href="https://www.google.com/maps/dir/?api=1&destination=7910+Winter+Garden+Vineland+Rd,+Windermere,+FL" target="_blank" rel="noopener">📍</a></span><span class="tg">respaldo</span></div>
       </div>
       <p class="meta">Para el sábado antes del outlet: salir a desayunar ~9am y entrar al outlet cuando abre (10am). El hotel incluye desayuno, así que esto es por salir a comer bien. Keke's abre 7am todos los días (cierra 2:30pm); si hay fila, es que está bueno.</p>
     </div>
@@ -504,33 +506,33 @@
     { dow:"Vie", d:2, tag:"llegada", ttl:"Llegada y primera noche", note:"Aterrizan 4:45 PM · carro ~6 PM · 2 farmacias · cena cubana",
       items:[
         ["4:45p","Aterrizan en MCO. Migración (Global Entry) → maletas en aduana → <b>People Mover</b> al edificio principal → renta en el <b>mismo edificio</b>, Nivel 1 lado A. <span>Carro listo ~5:45-6:00 PM.</span>"],
-        ["~6:00p","<b>CVS Pharmacy</b> (9188 International Dr, 7am-medianoche) y <b>Walgreens</b> (8021 International Dr, 24h) — suplementos, camino al hotel. ~18-20 min desde el aeropuerto a la zona de I-Drive."],
-        ["~7:00p","Rumbo al hotel (pocos minutos más, mismo corredor). Check-in en La Quinta, soltar maletas, descansar del vuelo."],
-        ["~8:00p","<b>Cena en Cuba Libre</b> (International Dr) — cubano festivo, buen primer contacto con la zona. Hora recorrida por las paradas de farmacia."]
+        ["~6:00p","<b>CVS Pharmacy</b> (9188 International Dr, 7am-medianoche) <a class=\"loc\" href=\"https://www.google.com/maps/dir/?api=1&destination=9188+International+Drive,+Orlando,+FL+32819\" target=\"_blank\" rel=\"noopener\">📍</a> y <b>Walgreens</b> (8021 International Dr, 24h) <a class=\"loc\" href=\"https://www.google.com/maps/dir/?api=1&destination=8021+International+Drive,+Orlando,+FL\" target=\"_blank\" rel=\"noopener\">📍</a> — suplementos, camino al hotel. ~18-20 min desde el aeropuerto a la zona de I-Drive."],
+        ["~7:00p","Rumbo al hotel (pocos minutos más, mismo corredor). Check-in en La Quinta <a class=\"loc\" href=\"https://www.google.com/maps/dir/?api=1&destination=8504+Universal+Blvd,+Orlando,+FL+32819\" target=\"_blank\" rel=\"noopener\">📍</a>, soltar maletas, descansar del vuelo."],
+        ["~8:00p","<b>Cena en Cuba Libre</b> (International Dr) <a class=\"loc\" href=\"https://www.google.com/maps/dir/?api=1&destination=Cuba+Libre+Restaurant+%26+Rum+Bar,+International+Dr,+Orlando,+FL\" target=\"_blank\" rel=\"noopener\">📍</a> — cubano festivo, buen primer contacto con la zona. Hora recorrida por las paradas de farmacia."]
       ]},
     { dow:"Sáb", d:3, tag:"outlet + show", ttl:"Outlet día 1 + Cirque du Soleil", note:"Desayuno 9:00 → outlet 10:00 → Disney Springs → cena 6:15 → show 8:00 → Uniqlo al salir",
       items:[
-        ["9:00a","Desayuno fuera en <b>Keke's Breakfast Cafe</b> (clásico local, abre 7am). La de <b>Millenia (4192 Conroy Rd)</b> queda ~10 min, de camino. Respaldo: <b>First Watch</b>. El hotel incluye desayuno, así que es opcional."],
-        ["10:00a","<b>Outlet</b> (día 1) — abre a las 10. Ropa y calzado primero; casa y lo pesado al final."],
-        ["~4:45p","Salir del outlet hacia <b>Disney Springs</b> (~25-30 min). Más temprano de lo normal: la cena es antes del show."],
-        ["6:15p","Cena en <b>Wine Bar George</b> (reserva 634623). Al terminar (~7:45) caminar al teatro en West Side."],
+        ["9:00a","Desayuno fuera en <b>Keke's Breakfast Cafe</b> (clásico local, abre 7am). La de <b>Millenia (4192 Conroy Rd)</b> <a class=\"loc\" href=\"https://www.google.com/maps/dir/?api=1&destination=4192+Conroy+Road,+Orlando,+FL\" target=\"_blank\" rel=\"noopener\">📍</a> queda ~10 min, de camino. Respaldo: <b>First Watch</b>. El hotel incluye desayuno, así que es opcional."],
+        ["10:00a","<b>Outlet</b> (día 1) <a class=\"loc\" href=\"https://www.google.com/maps/dir/?api=1&destination=Orlando+International+Premium+Outlets,+Orlando,+FL\" target=\"_blank\" rel=\"noopener\">📍</a> — abre a las 10. Ropa y calzado primero; casa y lo pesado al final."],
+        ["~4:45p","Salir del outlet hacia <b>Disney Springs</b> <a class=\"loc\" href=\"https://www.google.com/maps/dir/?api=1&destination=Disney+Springs,+Lake+Buena+Vista,+FL\" target=\"_blank\" rel=\"noopener\">📍</a> (~25-30 min). Más temprano de lo normal: la cena es antes del show."],
+        ["6:15p","Cena en <b>Wine Bar George</b> <a class=\"loc\" href=\"https://www.google.com/maps/dir/?api=1&destination=Wine+Bar+George,+Disney+Springs,+Lake+Buena+Vista,+FL\" target=\"_blank\" rel=\"noopener\">📍</a> (reserva 634623). Al terminar (~7:45) caminar al teatro en West Side."],
         ["8:00p","<b>Cirque du Soleil «Drawn to Life»</b> — Sección 102, Fila A, 7-8. Llegar ~15-20 min antes."],
         ["~9:15p","<b>Uniqlo</b> en Disney Springs (Town Center), al salir del show — cierra ~11 PM, da tiempo sin prisa. Es la tienda grande (25,000 ft²) y la única parada de Uniqlo del viaje."]
       ]},
     { dow:"Dom", d:4, tag:"ciudad", ttl:"Winter Park y Downtown", note:"Mañana al aire libre, antes de la lluvia de tarde",
       items:[
-        ["mañana","<b>Winter Park</b> — Park Avenue (calle peatonal, cafés) y, si quieren, el Scenic Boat Tour por los lagos (~1 h)."],
-        ["comida","<b>Black Bean Deli</b> (Winter Park) — sándwiches cubanos y medianoche; o algo en Park Avenue."],
-        ["tarde","<b>Downtown</b> — Lake Eola Park, vuelta al lago y skyline. Si llueve, se recorta."],
-        ["cena","<b>Numero Uno Cuban</b> (S Orange Ave) — puerco asado y frijoles negros; vale el trayecto."]
+        ["mañana","<b>Winter Park</b> <a class=\"loc\" href=\"https://www.google.com/maps/dir/?api=1&destination=Park+Avenue,+Winter+Park,+FL\" target=\"_blank\" rel=\"noopener\">📍</a> — Park Avenue (calle peatonal, cafés) y, si quieren, el Scenic Boat Tour por los lagos (~1 h)."],
+        ["comida","<b>Black Bean Deli</b> (Winter Park) <a class=\"loc\" href=\"https://www.google.com/maps/dir/?api=1&destination=Black+Bean+Deli,+Winter+Park,+FL\" target=\"_blank\" rel=\"noopener\">📍</a> — sándwiches cubanos y medianoche; o algo en Park Avenue."],
+        ["tarde","<b>Downtown</b> — Lake Eola Park <a class=\"loc\" href=\"https://www.google.com/maps/dir/?api=1&destination=Lake+Eola+Park,+Orlando,+FL\" target=\"_blank\" rel=\"noopener\">📍</a>, vuelta al lago y skyline. Si llueve, se recorta."],
+        ["cena","<b>Numero Uno Cuban</b> (S Orange Ave) <a class=\"loc\" href=\"https://www.google.com/maps/dir/?api=1&destination=Numero+Uno+Cuban+Restaurant,+S+Orange+Ave,+Orlando,+FL\" target=\"_blank\" rel=\"noopener\">📍</a> — puerco asado y frijoles negros; vale el trayecto."]
       ]},
     { dow:"Lun", d:5, tag:"florida mall", ttl:"Desayuno, Target, banco y The Florida Mall", note:"Reemplaza la 2ª vuelta al outlet (decidido 2 oct) — mall de precio completo",
       items:[
-        ["~7:45a","Salen del hotel → <b>desayuno en First Watch, West Windermere</b> (7910 Winter Garden Vineland Rd, abre 7am-2:30pm) — al lado del banco. Opcional, el hotel incluye desayuno."],
-        ["8:40a","<b>Wells Fargo Windermere</b> (trámite, abre 9:00) → <b>Target Millenia</b> (de paso)."],
-        ["~10:00a","<b>The Florida Mall</b> (8001 S Orange Blossom Trail) — mall de precio completo, NO outlet. Dillard's ('Woman's World') para la mamá de Jorge; también Macy's, JCPenney, H&amp;M, Zara. Su Uniqlo queda disponible si quieren asomarse. 🟡 trayecto Millenia→Florida Mall ~20-25 min, estimado."],
-        ["al salir","<b>T.J. Maxx</b> (Fun Spot Way, cerca del hotel) de paso, si no se hizo antes."],
-        ["noche","Si queda ánimo: <b>ICON Park</b> (la rueda, vistas nocturnas) — no es parque temático. Cena ahí o en Restaurant Row."]
+        ["~7:45a","Salen del hotel → <b>desayuno en First Watch, West Windermere</b> (7910 Winter Garden Vineland Rd, abre 7am-2:30pm) <a class=\"loc\" href=\"https://www.google.com/maps/dir/?api=1&destination=7910+Winter+Garden+Vineland+Rd,+Windermere,+FL\" target=\"_blank\" rel=\"noopener\">📍</a> — al lado del banco. Opcional, el hotel incluye desayuno."],
+        ["8:40a","<b>Wells Fargo Windermere</b> <a class=\"loc\" href=\"https://www.google.com/maps/dir/?api=1&destination=4876+S+Apopka+Vineland+Rd,+Windermere,+FL\" target=\"_blank\" rel=\"noopener\">📍</a> (trámite, abre 9:00) → <b>Target Millenia</b> <a class=\"loc\" href=\"https://www.google.com/maps/dir/?api=1&destination=4750+Millenia+Plaza+Way,+Orlando,+FL\" target=\"_blank\" rel=\"noopener\">📍</a> (de paso)."],
+        ["~10:00a","<b>The Florida Mall</b> (8001 S Orange Blossom Trail) <a class=\"loc\" href=\"https://www.google.com/maps/dir/?api=1&destination=8001+S+Orange+Blossom+Trail,+Orlando,+FL\" target=\"_blank\" rel=\"noopener\">📍</a> — mall de precio completo, NO outlet. Dillard's ('Woman's World') para la mamá de Jorge; también Macy's, JCPenney, H&amp;M, Zara. Su Uniqlo queda disponible si quieren asomarse. 🟡 trayecto Millenia→Florida Mall ~20-25 min, estimado."],
+        ["al salir","<b>T.J. Maxx</b> (Fun Spot Way, cerca del hotel) <a class=\"loc\" href=\"https://www.google.com/maps/dir/?api=1&destination=5476+Fun+Spot+Way,+Orlando,+FL\" target=\"_blank\" rel=\"noopener\">📍</a> de paso, si no se hizo antes."],
+        ["noche","Si queda ánimo: <b>ICON Park</b> (la rueda, vistas nocturnas) <a class=\"loc\" href=\"https://www.google.com/maps/dir/?api=1&destination=ICON+Park,+International+Drive,+Orlando,+FL\" target=\"_blank\" rel=\"noopener\">📍</a> — no es parque temático. Cena ahí o en Restaurant Row."]
       ]},
     { dow:"Mar", d:6, tag:"salida", ttl:"Regreso a Cancún", note:"Corte de maletas 12:45 PM · salir del hotel 10:45-11:00",
       items:[
