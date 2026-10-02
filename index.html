@@ -192,7 +192,7 @@
   <section class="view" id="v-dias">
     <div class="eyebrow">Viaje · 5 días</div>
     <h2 class="section-title">Cinco días</h2>
-    <p class="lead">Jorge y Fabiola. Sin niños, sin parques temáticos: la ciudad, dos días de outlet y los mejores lugares para comer. Toca una fila para ver el detalle.</p>
+    <p class="lead">Jorge y Fabiola. Sin niños, sin parques temáticos: la ciudad, outlet + Florida Mall y los mejores lugares para comer. Toca una fila para ver el detalle.</p>
     <div id="daysList"></div>
   </section>
 
@@ -398,11 +398,11 @@
       </div>
     </div>
 
-    <div class="eyebrow">Cómo ordenar los dos días</div>
+    <div class="eyebrow">Cómo ordenar el día de outlet (sábado)</div>
     <div class="card">
       <ol class="ol">
         <li><b>Ropa y calzado primero</b> (hay que probarse); <span>bolsas, maletas y lo pesado al final.</span></li>
-        <li><b>Lane Bryant</b> abre más tarde (vie-sáb 10-9, dom 11-7, lun 11-8) — para tu mamá, a media mañana.</li>
+        <li><b>Lane Bryant</b> abre 10am el sábado — para tu mamá, a media mañana. Único día de outlet, sin segunda vuelta.</li>
         <li>Entrar a <b>Disney's Character Warehouse</b> y <b>Cosmetics Company Store</b> aunque no estén en la lista: son únicos.</li>
         <li>En las 🟢, comparar con el <b>escáner</b> antes de decidir: el ahorro depende del descuento del día.</li>
         <li>Coach, MK, Ralph Lauren, Tommy, CK, TUMI, UGG, North Face: comprarlas <b>aquí</b>, no en Bicester/La Vallée del otro viaje.</li>
@@ -411,12 +411,14 @@
 
     <div class="eyebrow">Fuera del outlet</div>
     <div class="card">
-      <div class="kv"><span class="k">Target — Millenia</span><span class="v addr">4750 Millenia Plaza Way</span></div>
-      <div class="kv"><span class="k">T.J. Maxx</span><span class="v addr">5476 Fun Spot Way · de paso</span></div>
-      <div class="kv"><span class="k">Wells Fargo</span><span class="v addr">Windermere · 4876 S Apopka Vineland</span></div>
-      <div class="kv"><span class="k">Uniqlo — Florida Mall</span><span class="v addr">8001 S Orange Blossom Trl · vie al llegar, ~14 min del aeropuerto</span></div>
+      <div class="kv"><span class="k">CVS Pharmacy</span><span class="v addr">9188 International Dr · vie al llegar, camino al hotel</span></div>
+      <div class="kv"><span class="k">Walgreens</span><span class="v addr">8021 International Dr · vie al llegar, 24h</span></div>
+      <div class="kv"><span class="k">Wells Fargo</span><span class="v addr">Windermere · 4876 S Apopka Vineland · lun antes de Florida Mall</span></div>
+      <div class="kv"><span class="k">Target — Millenia</span><span class="v addr">4750 Millenia Plaza Way · lun de paso</span></div>
+      <div class="kv"><span class="k">The Florida Mall</span><span class="v addr">8001 S Orange Blossom Trl · lun, día completo (precio completo, no outlet)</span></div>
+      <div class="kv"><span class="k">T.J. Maxx</span><span class="v addr">5476 Fun Spot Way · de paso, cerca del hotel</span></div>
       <div class="kv"><span class="k">Uniqlo — Disney Springs</span><span class="v addr">Town Center · sáb al salir del show, tienda grande (25,000 ft²)</span></div>
-      <p class="meta">Las dos Uniqlo entran sin desvío extra: la de Florida Mall queda casi de camino entre el aeropuerto y el hotel el viernes, y la de Disney Springs ya está cubierta por la cena y el show del sábado. Marshalls queda como la única opcional de la zona sur, si sobra tiempo el domingo.</p>
+      <p class="meta">El viernes ahora va directo del aeropuerto al hotel con dos paradas de farmacia (suplementos), no de ropa. El lunes cambió la segunda vuelta al outlet por un día completo en The Florida Mall. Marshalls queda como la única opcional de la zona sur, si sobra tiempo el domingo.</p>
     </div>
 
     <div class="note"><span class="ic">◆</span><div><b>Lleva una maleta vacía.</b> Sin détaxe, el precio con 6.5 % de tax es final — cuéntalo en cada compra.</div></div>
@@ -499,12 +501,12 @@
 <script>
   "use strict";
   var TRIP = [
-    { dow:"Vie", d:2, tag:"llegada", ttl:"Llegada y primera noche", note:"Aterrizan 4:45 PM · carro ~6 PM · Uniqlo Florida Mall · cena cubana",
+    { dow:"Vie", d:2, tag:"llegada", ttl:"Llegada y primera noche", note:"Aterrizan 4:45 PM · carro ~6 PM · 2 farmacias · cena cubana",
       items:[
         ["4:45p","Aterrizan en MCO. Migración (Global Entry) → maletas en aduana → <b>People Mover</b> al edificio principal → renta en el <b>mismo edificio</b>, Nivel 1 lado A. <span>Carro listo ~5:45-6:00 PM.</span>"],
-        ["~6:00p","<b>Uniqlo, The Florida Mall</b> — ~14 min / 9.3 millas desde el aeropuerto, casi de camino al hotel. Abre hasta las 9 PM, sobra tiempo."],
-        ["~7:00p","Rumbo al hotel (~15-20 min). Check-in en La Quinta, soltar maletas, descansar del vuelo."],
-        ["~8:00p","<b>Cena en Cuba Libre</b> (International Dr) — cubano festivo, buen primer contacto con la zona. Hora recorrida por la parada en Uniqlo."]
+        ["~6:00p","<b>CVS Pharmacy</b> (9188 International Dr, 7am-medianoche) y <b>Walgreens</b> (8021 International Dr, 24h) — suplementos, camino al hotel. ~18-20 min desde el aeropuerto a la zona de I-Drive."],
+        ["~7:00p","Rumbo al hotel (pocos minutos más, mismo corredor). Check-in en La Quinta, soltar maletas, descansar del vuelo."],
+        ["~8:00p","<b>Cena en Cuba Libre</b> (International Dr) — cubano festivo, buen primer contacto con la zona. Hora recorrida por las paradas de farmacia."]
       ]},
     { dow:"Sáb", d:3, tag:"outlet + show", ttl:"Outlet día 1 + Cirque du Soleil", note:"Desayuno 9:00 → outlet 10:00 → Disney Springs → cena 6:15 → show 8:00 → Uniqlo al salir",
       items:[
@@ -513,7 +515,7 @@
         ["~4:45p","Salir del outlet hacia <b>Disney Springs</b> (~25-30 min). Más temprano de lo normal: la cena es antes del show."],
         ["6:15p","Cena en <b>Wine Bar George</b> (reserva 634623). Al terminar (~7:45) caminar al teatro en West Side."],
         ["8:00p","<b>Cirque du Soleil «Drawn to Life»</b> — Sección 102, Fila A, 7-8. Llegar ~15-20 min antes."],
-        ["~9:15p","<b>Uniqlo</b> en Disney Springs (Town Center), al salir del show — cierra ~11 PM, da tiempo sin prisa. Es la tienda grande (25,000 ft²); la de Florida Mall ya se hizo el viernes al llegar."]
+        ["~9:15p","<b>Uniqlo</b> en Disney Springs (Town Center), al salir del show — cierra ~11 PM, da tiempo sin prisa. Es la tienda grande (25,000 ft²) y la única parada de Uniqlo del viaje."]
       ]},
     { dow:"Dom", d:4, tag:"ciudad", ttl:"Winter Park y Downtown", note:"Mañana al aire libre, antes de la lluvia de tarde",
       items:[
@@ -522,11 +524,11 @@
         ["tarde","<b>Downtown</b> — Lake Eola Park, vuelta al lago y skyline. Si llueve, se recorta."],
         ["cena","<b>Numero Uno Cuban</b> (S Orange Ave) — puerco asado y frijoles negros; vale el trayecto."]
       ]},
-    { dow:"Lun", d:5, tag:"outlet día 2", ttl:"Target, banco y segundo outlet", note:"Pendientes de la primera vuelta + lo que faltó",
+    { dow:"Lun", d:5, tag:"florida mall", ttl:"Target, banco y The Florida Mall", note:"Reemplaza la 2ª vuelta al outlet (decidido 2 oct) — mall de precio completo",
       items:[
-        ["8:00a","Salen del hotel → <b>Target Millenia</b> → <b>Wells Fargo Windermere</b> (trámite, abre 9:00)."],
-        ["9:30a","Regreso al <b>outlet</b> (día 2): pendientes, tiendas que faltaron, probarse con calma. Lane Bryant abre 11."],
-        ["al salir","<b>T.J. Maxx</b> (Fun Spot Way) de paso, si no se hizo el viernes."],
+        ["8:30a","Salen del hotel → <b>Wells Fargo Windermere</b> (trámite, abre 9:00) → <b>Target Millenia</b> (de paso)."],
+        ["~10:00a","<b>The Florida Mall</b> (8001 S Orange Blossom Trail) — mall de precio completo, NO outlet. Dillard's ('Woman's World') para la mamá de Jorge; también Macy's, JCPenney, H&amp;M, Zara. Su Uniqlo queda disponible si quieren asomarse. 🟡 trayecto Millenia→Florida Mall ~20-25 min, estimado."],
+        ["al salir","<b>T.J. Maxx</b> (Fun Spot Way, cerca del hotel) de paso, si no se hizo antes."],
         ["noche","Si queda ánimo: <b>ICON Park</b> (la rueda, vistas nocturnas) — no es parque temático. Cena ahí o en Restaurant Row."]
       ]},
     { dow:"Mar", d:6, tag:"salida", ttl:"Regreso a Cancún", note:"Corte de maletas 12:45 PM · salir del hotel 10:45-11:00",
