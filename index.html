@@ -1,0 +1,587 @@
+<title>Bitácora Orlando</title>
+<style>
+  /* Layout: dark-first app shell — sticky header, scrolling views, fixed bottom tab bar.
+     Palette: warm Florida charcoal + sunlit amber accent (sibling to the Londres·París dark app). */
+  :root{
+    --bg:#15120d; --surface:#1e1a13; --surface-2:#272117; --raised:#2f2819;
+    --fg:#f3ecdd; --muted:#a89d87; --faint:#766c58; --line:#312a1d;
+    --accent:#f0a24b; --accent-ink:#1a1206; --good:#79b36a; --warn:#e8b45c; --alert:#e2795a;
+    --dspl:"Fraunces", Georgia, "Times New Roman", serif;
+    --body:"Hanken Grotesk", system-ui, -apple-system, sans-serif;
+    --mono:"IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+    color-scheme:dark;
+  }
+  @media (prefers-color-scheme: light){
+    :root:not([data-theme="dark"]){
+      --bg:#f5efe3; --surface:#fffdf7; --surface-2:#f0e8d7; --raised:#ebe1cc;
+      --fg:#241e14; --muted:#6c6353; --faint:#9c9280; --line:#e4dac5;
+      --accent:#b26a1f; --accent-ink:#fff8ee; --good:#4e7d41; --warn:#9a6f1e; --alert:#b4482c;
+      color-scheme:light;
+    }
+  }
+  :root[data-theme="light"]{
+    --bg:#f5efe3; --surface:#fffdf7; --surface-2:#f0e8d7; --raised:#ebe1cc;
+    --fg:#241e14; --muted:#6c6353; --faint:#9c9280; --line:#e4dac5;
+    --accent:#b26a1f; --accent-ink:#fff8ee; --good:#4e7d41; --warn:#9a6f1e; --alert:#b4482c;
+    color-scheme:light;
+  }
+
+  *{box-sizing:border-box}
+  body{
+    background:var(--bg); color:var(--fg);
+    font-family:var(--body); font-size:15px; line-height:1.5;
+    margin:0; -webkit-font-smoothing:antialiased;
+    padding-bottom:calc(70px + env(safe-area-inset-bottom,0px));
+  }
+  h1,h2,h3{text-wrap:balance; margin:0}
+  a{color:inherit}
+  .mono{font-family:var(--mono)}
+
+  /* ---- Header ---- */
+  header{
+    position:sticky; top:env(safe-area-inset-top,0px); z-index:20;
+    background:color-mix(in srgb, var(--bg) 86%, transparent);
+    backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px);
+    border-bottom:1px solid var(--line);
+  }
+  .head-in{max-width:760px; margin:0 auto; padding:14px 18px; display:flex; align-items:center; gap:12px}
+  .glyph{
+    width:34px; height:34px; border-radius:10px; flex:none;
+    background:linear-gradient(145deg, var(--accent), #d9752b);
+    display:grid; place-items:center; color:var(--accent-ink); font-size:19px;
+    box-shadow:0 2px 10px rgba(0,0,0,.25);
+  }
+  .head-txt{min-width:0; flex:1}
+  .head-txt h1{font-family:var(--dspl); font-weight:600; font-size:19px; letter-spacing:.2px}
+  .head-sub{color:var(--muted); font-size:12px; margin-top:1px; font-family:var(--mono); letter-spacing:.2px}
+  .head-sub b{color:var(--accent); font-weight:600}
+  .theme-btn{
+    flex:none; width:34px; height:34px; border-radius:9px; border:1px solid var(--line);
+    background:var(--surface); color:var(--muted); cursor:pointer; font-size:15px; display:grid; place-items:center;
+  }
+  .theme-btn:active{transform:scale(.94)}
+
+  /* ---- Shell ---- */
+  main{max-width:760px; margin:0 auto; padding:0 16px}
+  .view{display:none; padding-block:18px 8px}
+  .view.active{display:block; animation:fade .22s ease both}
+  @keyframes fade{from{opacity:0; transform:translateY(4px)}to{opacity:1; transform:none}}
+  @media (prefers-reduced-motion: reduce){ .view.active{animation:none} }
+
+  .eyebrow{
+    font-family:var(--mono); font-size:11px; letter-spacing:.14em; text-transform:uppercase;
+    color:var(--faint); margin:26px 2px 10px;
+  }
+  .eyebrow:first-child{margin-top:4px}
+  .section-title{font-family:var(--dspl); font-weight:600; font-size:27px; letter-spacing:.2px; margin:2px 2px 14px}
+
+  /* ---- Cards ---- */
+  .card{
+    background:var(--surface); border:1px solid var(--line); border-radius:14px;
+    padding:15px 16px; margin-bottom:10px;
+  }
+  .card.flush{padding:0; overflow:hidden}
+
+  /* day rows */
+  .day{
+    display:flex; align-items:center; gap:14px; width:100%; text-align:left;
+    background:var(--surface); border:1px solid var(--line); border-radius:13px;
+    padding:13px 15px; margin-bottom:9px; cursor:pointer; color:inherit; font:inherit;
+  }
+  .day:active{transform:scale(.995)}
+  .day.on{border-color:color-mix(in srgb, var(--accent) 55%, var(--line)); background:var(--surface-2)}
+  .day-date{font-family:var(--mono); font-size:12px; color:var(--accent); flex:none; width:52px; line-height:1.3}
+  .day-date b{display:block; color:var(--fg); font-size:16px; font-weight:600}
+  .day-body{flex:1; min-width:0}
+  .day-ttl{display:block; font-weight:600; font-size:15.5px}
+  .day-note{display:block; color:var(--muted); font-size:12.5px; margin-top:2px}
+  .day-tag{flex:none; font-family:var(--mono); font-size:10.5px; letter-spacing:.06em; text-transform:uppercase; color:var(--muted);
+    border:1px solid var(--line); border-radius:999px; padding:3px 9px; white-space:nowrap}
+
+  .day-detail{margin:-2px 0 12px; padding:2px 4px 2px 70px}
+  .day-detail ul{margin:0; padding:0; list-style:none; display:flex; flex-direction:column; gap:8px}
+  .day-detail li{display:flex; gap:10px; color:var(--fg); font-size:14px}
+  .day-detail li .t{font-family:var(--mono); font-size:11.5px; color:var(--accent); flex:none; width:60px; padding-top:1px}
+  .day-detail li .d{min-width:0}
+  .day-detail li .d span{color:var(--muted)}
+  @media (max-width:430px){
+    .day-detail{padding-left:12px}
+    .day-detail li{flex-direction:column; gap:1px}
+    .day-detail li .t{width:auto}
+  }
+
+  /* ticket / info rows */
+  .kv{display:flex; justify-content:space-between; gap:14px; padding:7px 0; border-top:1px solid var(--line); font-size:13.5px}
+  .kv:first-of-type{border-top:0}
+  .kv .k{color:var(--muted); flex:none}
+  .kv .v{text-align:right; min-width:0; font-variant-numeric:tabular-nums}
+  .tk-head{display:flex; align-items:baseline; justify-content:space-between; gap:10px; margin-bottom:8px}
+  .tk-head h3{font-family:var(--dspl); font-weight:600; font-size:18px}
+  .ref{font-family:var(--mono); font-size:12px; color:var(--accent); background:color-mix(in srgb,var(--accent) 12%, transparent);
+    border:1px solid color-mix(in srgb,var(--accent) 30%, var(--line)); border-radius:7px; padding:2px 8px; white-space:nowrap}
+  .paid{font-family:var(--mono); font-size:10px; letter-spacing:.08em; text-transform:uppercase; color:var(--good)}
+  .meta{color:var(--muted); font-size:12.5px; margin-top:8px; line-height:1.45}
+
+  .lead{color:var(--muted); font-size:14px; margin:0 2px 16px; max-width:62ch}
+
+  /* pills / lists inside cards */
+  .pill{display:inline-flex; align-items:center; gap:6px; font-family:var(--mono); font-size:11px; letter-spacing:.04em;
+    border:1px solid var(--line); border-radius:999px; padding:3px 10px; color:var(--muted); margin:0 6px 6px 0}
+  .dot{width:7px;height:7px;border-radius:50%;flex:none}
+  .b-list{display:flex; flex-direction:column; gap:2px}
+  .b-row{display:flex; gap:10px; align-items:baseline; padding:6px 0; border-top:1px solid var(--line); font-size:13.5px}
+  .b-row:first-child{border-top:0}
+  .b-row .nm{flex:1; min-width:0}
+  .b-row .tg{color:var(--muted); font-size:12px; text-align:right}
+
+  .note{display:flex; gap:10px; padding:11px 13px; border-radius:11px; font-size:13px; line-height:1.45; margin-bottom:9px;
+    background:var(--surface-2); border:1px solid var(--line)}
+  .note .ic{flex:none; font-size:14px; line-height:1.3}
+  .note.alert{border-color:color-mix(in srgb,var(--alert) 45%, var(--line)); background:color-mix(in srgb,var(--alert) 12%, var(--surface))}
+  .note.warn{border-color:color-mix(in srgb,var(--warn) 42%, var(--line)); background:color-mix(in srgb,var(--warn) 10%, var(--surface))}
+  .note b{color:var(--fg)}
+  .addr{font-family:var(--mono); font-size:12px; color:var(--muted)}
+
+  footer{color:var(--faint); font-size:11.5px; text-align:center; padding:26px 0 10px; font-family:var(--mono)}
+
+  /* ---- Bottom nav ---- */
+  nav{
+    position:fixed; left:0; right:0; bottom:0; z-index:30;
+    background:color-mix(in srgb, var(--bg) 92%, transparent);
+    backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px);
+    border-top:1px solid var(--line);
+    padding-bottom:env(safe-area-inset-bottom,0px);
+  }
+  .nav-in{max-width:760px; margin:0 auto; display:flex; justify-content:space-around; padding:6px 4px}
+  .tab{
+    flex:1; background:none; border:0; cursor:pointer; color:var(--faint);
+    display:flex; flex-direction:column; align-items:center; gap:3px; padding:7px 2px 5px;
+    font-family:var(--mono); font-size:10px; letter-spacing:.04em;
+  }
+  .tab svg{width:21px; height:21px; stroke:currentColor; fill:none; stroke-width:1.7}
+  .tab.on{color:var(--accent)}
+  .tab:active{transform:scale(.93)}
+</style>
+
+<header>
+  <div class="head-in">
+    <div class="glyph">☀</div>
+    <div class="head-txt">
+      <h1>Orlando</h1>
+      <div class="head-sub" id="headSub">2 – 6 de octubre · 2026</div>
+    </div>
+    <button class="theme-btn" id="themeBtn" title="Tema" aria-label="Cambiar tema">◐</button>
+  </div>
+</header>
+
+<main>
+  <!-- ============ HOY ============ -->
+  <section class="view" id="v-hoy">
+    <div id="hoyBody"></div>
+  </section>
+
+  <!-- ============ DÍAS ============ -->
+  <section class="view" id="v-dias">
+    <div class="eyebrow">Viaje · 5 días</div>
+    <h2 class="section-title">Cinco días</h2>
+    <p class="lead">Jorge y Fabiola. Sin niños, sin parques temáticos: la ciudad, dos días de outlet y los mejores lugares para comer. Toca una fila para ver el detalle.</p>
+    <div id="daysList"></div>
+  </section>
+
+  <!-- ============ BOLETOS ============ -->
+  <section class="view" id="v-boletos">
+    <div class="eyebrow">Reservas confirmadas</div>
+    <h2 class="section-title">Boletos</h2>
+
+    <div class="card">
+      <div class="tk-head"><h3>Vuelos · Southwest</h3><span class="ref">CN2NS9</span></div>
+      <div class="kv"><span class="k">Vie 2 oct · ida</span><span class="v">CUN 1:45p → MCO 4:45p · WN 1025</span></div>
+      <div class="kv"><span class="k">Asientos</span><span class="v">03D / 03E · Extra Legroom</span></div>
+      <div class="kv"><span class="k">Mar 6 oct · regreso</span><span class="v">MCO 1:45p → CUN 2:50p · WN 0318</span></div>
+      <div class="kv"><span class="k">Asientos</span><span class="v">02C / 02B · Extra Legroom</span></div>
+      <p class="meta">Tarifa Choice Extra: reembolsable, 2 maletas gratis, cambios el mismo día sin costo. Con Extra Legroom abordan en <b>Grupo 2</b> (de los primeros). Asientos ya asignados de verdad. Pasajeros: Jorge Alberto Mujica Capote · Fabiola Victorio Cabrera.</p>
+    </div>
+
+    <div class="card">
+      <div class="tk-head"><h3>Hotel · La Quinta by Wyndham</h3><span class="ref">#6217505139</span></div>
+      <div class="kv"><span class="k">Dirección</span><span class="v">8504 Universal Blvd, I-Drive/Conv Ctr</span></div>
+      <div class="kv"><span class="k">Estancia</span><span class="v">Vie 2 (desde 15:00) → Mar 6 (hasta 11:00)</span></div>
+      <div class="kv"><span class="k">Habitación</span><span class="v">Deluxe cama extragrande · desayuno incl.</span></div>
+      <div class="kv"><span class="k">Total</span><span class="v">$335.66 USD · se paga en el hotel</span></div>
+      <p class="meta">PIN de reserva <span class="mono">7326</span> · tel. +1 407-345-1365. Garantizado con Amex term. 4004. Depósito de $100 por daños al check-in (se devuelve ~14 días después).</p>
+    </div>
+
+    <div class="card">
+      <div class="tk-head"><h3>Cirque du Soleil · «Drawn to Life»</h3><span class="paid">✓ comprado</span></div>
+      <div class="kv"><span class="k">Cuándo</span><span class="v">Sáb 3 oct · 8:00 PM</span></div>
+      <div class="kv"><span class="k">Lugar</span><span class="v">Teatro en Disney Springs</span></div>
+      <div class="kv"><span class="k">Asientos</span><span class="v">Sección 102 · Fila A (primera) · 7-8</span></div>
+      <div class="kv"><span class="k">Total</span><span class="v">$409.90 USD · boleto móvil</span></div>
+      <p class="meta">Asientos de lado, no al centro (preferencia de Jorge). Entrada regular. Llegar al teatro ~15-20 min antes. El Cirque descansa domingo y lunes: la única noche buena era este sábado.</p>
+    </div>
+
+    <div class="card">
+      <div class="tk-head"><h3>Cena · Wine Bar George</h3><span class="ref">OpenTable 634623</span></div>
+      <div class="kv"><span class="k">Cuándo</span><span class="v">Sáb 3 oct · 6:15 PM · 2 personas</span></div>
+      <div class="kv"><span class="k">Dónde</span><span class="v">Town Center de Disney Springs</span></div>
+      <p class="meta">A nombre de Jorge. El mejor calificado de Disney Springs (cocina americana, tablas y vinos). Antes del show: al terminar (~7:45) caminar al teatro en West Side (~10-15 min).</p>
+    </div>
+
+    <div class="card">
+      <div class="tk-head"><h3>Renta de auto · Hertz</h3><span class="ref">L726E7E8182</span></div>
+      <div class="kv"><span class="k">Recogida</span><span class="v">MCO · vie 2 oct · 5:00 PM</span></div>
+      <div class="kv"><span class="k">Devolución</span><span class="v">MCO · mar 6 oct · 1:00 PM</span></div>
+      <div class="kv"><span class="k">Auto</span><span class="v">Small SUV AWD (B5) · Buick Encore GX o similar</span></div>
+      <div class="kv"><span class="k">Total</span><span class="v">$339.56 USD · ya pagado, 1 semana</span></div>
+      <p class="meta">Millas ilimitadas incluidas. La hora de recogida de la reserva (5:00 PM) es antes de cuando en realidad llegan al mostrador (~5:45-6:00 PM por migración) — sin problema, no cancelan por eso. La devolución real será ~10:45-11:00 AM (no 1:00 PM), por el corte de maletas de Southwest — devolver antes no tiene costo extra.</p>
+    </div>
+
+    <div class="note warn"><span class="ic">▲</span><div><b>Antes de volar:</b> renta de auto ✅ confirmada (Hertz L726E7E8182). Visas de los dos ✅ vigentes y KTN de Global Entry ✅ ya cargado en la reserva (fila PreCheck a la salida).</div></div>
+  </section>
+
+  <!-- ============ COMPRAS ============ -->
+  <section class="view" id="v-compras">
+    <style>
+      .ptable-wrap{overflow-x:auto; -webkit-overflow-scrolling:touch; border:1px solid var(--line); border-radius:13px; margin-bottom:8px}
+      table.ptable{border-collapse:collapse; width:100%; min-width:460px; font-size:13px; font-variant-numeric:tabular-nums}
+      table.ptable th, table.ptable td{text-align:left; padding:9px 11px; border-top:1px solid var(--line); vertical-align:top}
+      table.ptable thead th{border-top:0; background:var(--surface-2); font-family:var(--mono); font-size:10.5px; letter-spacing:.06em; text-transform:uppercase; color:var(--muted); font-weight:500}
+      table.ptable td.num, table.ptable th.num{text-align:right; white-space:nowrap}
+      table.ptable td .it{font-weight:600}
+      table.ptable td .sb{display:block; color:var(--muted); font-size:11.5px; margin-top:1px}
+      table.ptable .pay{color:var(--accent); font-weight:600}
+      .legend{display:flex; flex-wrap:wrap; gap:4px 14px; margin:2px 2px 12px; font-size:12px; color:var(--muted)}
+      .legend span b{color:var(--fg)}
+      .verdict{margin-bottom:10px}
+      .verdict h3{font-family:var(--dspl); font-weight:600; font-size:16px; margin-bottom:6px}
+      .ol{margin:0; padding-left:20px; display:flex; flex-direction:column; gap:7px; font-size:13.5px}
+      .ol li span{color:var(--muted)}
+    </style>
+
+    <div class="eyebrow">Outlet · análisis</div>
+    <h2 class="section-title">Compras</h2>
+    <p class="lead">Orlando International Premium Outlets — 4951 International Dr, ~10 min del hotel, <b>167 tiendas</b>. La lógica aquí no es exclusividad sino el <b>descuento de fábrica</b>: outlet americano contra precio de lista mexicano. En la mayoría de marcas es 40-70 % menos aun existiendo en México; en las que no están en México, es la única oportunidad.</p>
+
+    <div class="eyebrow">El marco · verificado 1 oct</div>
+    <div class="card">
+      <div class="kv"><span class="k">Tipo de cambio</span><span class="v">1 USD ≈ 18.1 MXN <span style="color:var(--muted)">(reverificar el día)</span></span></div>
+      <div class="kv"><span class="k">Impuesto (Orange Co.)</span><span class="v">+6.5 % · no viene en la etiqueta</span></div>
+      <div class="kv"><span class="k">Détaxe</span><span class="v">No existe en EE. UU. · el precio con tax es final</span></div>
+      <div class="kv"><span class="k">Voltaje</span><span class="v">120 V = 127 V MX · lo electrónico SÍ sirve</span></div>
+    </div>
+
+    <div class="eyebrow">Lo que pagas · precios verificados</div>
+    <p class="lead" style="margin-bottom:10px">Precio de sitios oficiales de EE. UU. (1 oct). «Pagas» = precio + 6.5 % tax × 18.1, puesto en pesos. El precio de outlet es estimado donde el sitio solo da lista. <b>El precio de lista México no se pudo verificar hoy</b> (Liverpool/Palacio bloquean la lectura) — no se inventó: confírmalo en el piso con el escáner de la etiqueta.</p>
+    <div class="ptable-wrap">
+      <table class="ptable">
+        <thead><tr><th>Artículo</th><th class="num">Lista US</th><th class="num">Outlet</th><th class="num">Pagas ≈</th></tr></thead>
+        <tbody>
+          <tr><td><span class="it">TUMI Alpha</span><span class="sb">carry-on Dual Access</span></td><td class="num">$950</td><td class="num">$665</td><td class="num pay">12,800</td></tr>
+          <tr><td><span class="it">TUMI Voyageur</span><span class="sb">mochila Celina</span></td><td class="num">$495</td><td class="num">$346</td><td class="num pay">6,700</td></tr>
+          <tr><td><span class="it">North Face</span><span class="sb">1996 Retro Nuptse</span></td><td class="num">$380</td><td class="num">$266</td><td class="num pay">5,100</td></tr>
+          <tr><td><span class="it">UGG</span><span class="sb">Classic Short II</span></td><td class="num">$195</td><td class="num">~$160</td><td class="num pay">3,100</td></tr>
+          <tr><td><span class="it">Nike</span><span class="sb">Air Force 1 '07</span></td><td class="num">$115</td><td class="num">~$90</td><td class="num pay">1,750</td></tr>
+          <tr><td><span class="it">Levi's</span><span class="sb">501 Original</span></td><td class="num">$85</td><td class="num">~$55</td><td class="num pay">1,100</td></tr>
+          <tr><td><span class="it">Bath &amp; Body</span><span class="sb">vela 3 mechas</span></td><td class="num">$27</td><td class="num">$14</td><td class="num pay">270</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="meta" style="margin-bottom:4px">En México estas marcas cuestan bastante más; el ahorro real por pieza se confirma con el escáner o abriendo Liverpool/Palacio en el teléfono. Pendiente: armar el catálogo de precios US vs MX por producto, como los 62 de Europa.</p>
+
+    <div class="eyebrow">Veredicto por categoría</div>
+    <div class="legend"><span>⚪ <b>no hay en México</b> (única)</span><span>🟢 <b>vale el corte</b> de outlet</span><span>🔴 igual que en México</span></div>
+
+    <div class="card verdict">
+      <h3>Piel y bolsas — lo que más rinde</h3>
+      <div class="b-list">
+        <div class="b-row"><span class="nm">🟢 <b>Coach Outlet · Michael Kors · Kate Spade</b> — cortan 50-70 %</span><span class="tg">top</span></div>
+        <div class="b-row"><span class="nm">🟢 TUMI — maletas/mochilas muy caras en MX</span><span class="tg">top</span></div>
+        <div class="b-row"><span class="nm">⚪ Vera Bradley · Brahmin · Dooney &amp; Bourke</span><span class="tg">única</span></div>
+        <div class="b-row"><span class="nm">🔴 Kipling · Samsonite · Swarovski</span><span class="tg">saltar</span></div>
+      </div>
+    </div>
+
+    <div class="card verdict">
+      <h3>Ropa</h3>
+      <div class="b-list">
+        <div class="b-row"><span class="nm">⚪ <b>Lane Bryant</b> (tallas grandes de dama)</span><span class="tg">tu mamá</span></div>
+        <div class="b-row"><span class="nm">⚪ J.Crew Factory · LOFT · Ann Taylor · Chico's · Express</span><span class="tg">única</span></div>
+        <div class="b-row"><span class="nm">🟢 Polo RL · Tommy · Calvin Klein · BOSS · Levi's</span><span class="tg">corte</span></div>
+        <div class="b-row"><span class="nm">🟡 Gap / Banana Republic Factory — según el día</span><span class="tg">depende</span></div>
+        <div class="b-row"><span class="nm">🔴 U.S. Polo Assn. · Perry Ellis · Carter's</span><span class="tg">saltar</span></div>
+      </div>
+    </div>
+
+    <div class="card verdict">
+      <h3>Calzado y aire libre</h3>
+      <div class="b-list">
+        <div class="b-row"><span class="nm">🟢 UGG · Timberland — más brecha</span><span class="tg">corte</span></div>
+        <div class="b-row"><span class="nm">🟢 Nike · adidas · New Balance · Vans — mejor con promo</span><span class="tg">corte</span></div>
+        <div class="b-row"><span class="nm">🟢 The North Face · Columbia — corte real</span><span class="tg">corte</span></div>
+        <div class="b-row"><span class="nm">🔴 Converse · Crocs · ALDO · Foot Locker</span><span class="tg">saltar</span></div>
+      </div>
+    </div>
+
+    <div class="card verdict">
+      <h3>Belleza y regalo</h3>
+      <div class="b-list">
+        <div class="b-row"><span class="nm">🟢 Cosmetics Company Store (Estée Lauder/MAC/La Mer)</span><span class="tg">sets</span></div>
+        <div class="b-row"><span class="nm">🟢 Bath &amp; Body Works — brecha enorme</span><span class="tg">volumen</span></div>
+        <div class="b-row"><span class="nm">⚪ Disney's Character Warehouse · Fragrance Outlet</span><span class="tg">única</span></div>
+        <div class="b-row"><span class="nm">🔴 L'Occitane · Pandora · Lindt · GNC</span><span class="tg">saltar</span></div>
+      </div>
+    </div>
+
+    <div class="eyebrow">Cómo ordenar los dos días</div>
+    <div class="card">
+      <ol class="ol">
+        <li><b>Ropa y calzado primero</b> (hay que probarse); <span>bolsas, maletas y lo pesado al final.</span></li>
+        <li><b>Lane Bryant</b> abre más tarde (vie-sáb 10-9, dom 11-7, lun 11-8) — para tu mamá, a media mañana.</li>
+        <li>Entrar a <b>Disney's Character Warehouse</b> y <b>Cosmetics Company Store</b> aunque no estén en la lista: son únicos.</li>
+        <li>En las 🟢, comparar con el <b>escáner</b> antes de decidir: el ahorro depende del descuento del día.</li>
+        <li>Coach, MK, Ralph Lauren, Tommy, CK, TUMI, UGG, North Face: comprarlas <b>aquí</b>, no en Bicester/La Vallée del otro viaje.</li>
+      </ol>
+    </div>
+
+    <div class="eyebrow">Fuera del outlet</div>
+    <div class="card">
+      <div class="kv"><span class="k">Target — Millenia</span><span class="v addr">4750 Millenia Plaza Way</span></div>
+      <div class="kv"><span class="k">T.J. Maxx</span><span class="v addr">5476 Fun Spot Way · de paso</span></div>
+      <div class="kv"><span class="k">Wells Fargo</span><span class="v addr">Windermere · 4876 S Apopka Vineland</span></div>
+      <p class="meta">Marshalls, Uniqlo y Florida Mall quedan al sur, en dirección contraria — solo si sobra tiempo el domingo.</p>
+    </div>
+
+    <div class="note"><span class="ic">◆</span><div><b>Lleva una maleta vacía.</b> Sin détaxe, el precio con 6.5 % de tax es final — cuéntalo en cada compra.</div></div>
+    <div class="note"><span class="ic">✕</span><div><b>Apple quedó fuera</b> del viaje: la MacBook Pro M5 Max no estaría lista antes del regreso. Se compra aparte, con envío.</div></div>
+  </section>
+
+  <!-- ============ TIPS ============ -->
+  <section class="view" id="v-tips">
+    <div class="eyebrow">Aeropuerto · MCO</div>
+    <h2 class="section-title">Tips</h2>
+
+    <div class="card">
+      <div class="tk-head"><h3>Llegada · vie 2 oct 4:45 PM</h3></div>
+      <ol style="margin:0; padding-left:18px; display:flex; flex-direction:column; gap:7px; font-size:13.5px">
+        <li><b>Migración (CBP)</b> — en el satélite de puertas, al bajar del avión. Buscar los kioscos <b>Global Entry</b> (los dos lo tienen): escanean pasaporte y foto, saltan la fila de extranjeros. Minutos.</li>
+        <li><b>Maletas</b> — las 2 facturadas salen ahí mismo, en la zona de aduana. Se recogen y se cruza el último filtro. (Esto tarda igual con o sin Global Entry.)</li>
+        <li><b>People Mover</b> — el trenecito automático al <b>edificio principal</b> (señas "Main Terminal"). Es el <b>único tren</b>. ~1-2 min; deja en el <b>Nivel 3</b>.</li>
+        <li><b>Bajar al Nivel 1 "Ground Transportation"</b> (lado A) siguiendo <b>"Rental Cars"</b> — elevador o escaleras eléctricas.</li>
+        <li><b>Ventanilla Hertz</b> — en el Nivel 1 lado A (conf. L726E7E8182). Entregar licencia y la tarjeta de pago.</li>
+        <li><b>Recoger el auto</b> en el estacionamiento pegado (normalmente <b>Nivel 2 del garaje</b>) — no hay otra van ni otro edificio. Revisar gasolina, km y golpes; foto del cajón.</li>
+      </ol>
+      <p class="meta">Margen con Global Entry: ~45-70 min entre aterrizar y salir manejando. El carro debería estar listo hacia las <b>5:45-6:00 PM</b>. Southwest está en la <b>Terminal A</b>. Si la renta fuera de una marca <b>fuera del aeropuerto</b>, desde ese mismo Nivel 1 sale una <b>van gratis</b> a su lote.</p>
+    </div>
+
+    <div class="card">
+      <div class="tk-head"><h3>Salida · mar 6 oct 1:45 PM</h3></div>
+      <div class="note alert" style="margin:0 0 10px"><span class="ic">▲</span><div>Por ser vuelo internacional, Southwest exige facturar maletas <b>en mostrador</b> (no autoservicio), con corte duro <b>12:45 PM</b> (60 min antes).</div></div>
+      <ol style="margin:0; padding-left:18px; display:flex; flex-direction:column; gap:7px; font-size:13.5px">
+        <li>Checkout 11:00 · <b>salir del hotel 10:45-11:00 AM</b> (no más tarde).</li>
+        <li><b>Devolver el auto Hertz</b> en el mismo edificio de la terminal (señas "Car Return"); de ahí se sube a salidas, <b>sin tren</b>.</li>
+        <li><b>Mostrador de Southwest</b> (Terminal A, Nivel 3) antes de las 12:45 — no el autoservicio.</li>
+        <li>Seguridad: Global Entry trae <b>TSA PreCheck</b> — el KTN de los dos ya está cargado en la reserva ✅, así que van directo a esa fila.</li>
+        <li><b>People Mover</b> a la puerta que diga el pase de abordar (Southwest, Terminal A). Abordan en Grupo 2.</li>
+      </ol>
+    </div>
+
+    <div class="eyebrow">Bueno saber</div>
+    <div class="card">
+      <div class="kv"><span class="k">Clima</span><span class="v">~88-89°F · lluvia de tarde (60-70%)</span></div>
+      <div class="kv"><span class="k">Huso</span><span class="v">Florida va 1 h adelante de Cancún</span></div>
+      <div class="kv"><span class="k">Moneda</span><span class="v">USD · sin devolución de impuestos</span></div>
+      <p class="meta">Lo de exterior (Winter Park, Lake Eola), mejor en la mañana: la lluvia casi siempre entra después de las 2 PM. Llevar algo ligero para lluvia y ropa fresca.</p>
+    </div>
+
+    <div class="eyebrow">Comida cubana</div>
+    <div class="card">
+      <div class="b-list">
+        <div class="b-row"><span class="nm"><b>Numero Uno Cuban</b> — downtown, el más recomendado</span><span class="tg">dom cena</span></div>
+        <div class="b-row"><span class="nm">Cuba Libre Rum Bar — International Dr, festivo</span><span class="tg">vie cena</span></div>
+        <div class="b-row"><span class="nm">Black Bean Deli — Winter Park, sándwiches</span><span class="tg">dom comida</span></div>
+        <div class="b-row"><span class="nm">Café Pinar — Sand Lake Rd, cerca del hotel</span><span class="tg">de paso</span></div>
+      </div>
+      <p class="meta">Conviene reservar Numero Uno / Cuba Libre si quieren asegurar mesa. La cena del sábado en Disney Springs ya está (Wine Bar George).</p>
+    </div>
+
+    <div class="eyebrow">Desayuno</div>
+    <div class="card">
+      <div class="b-list">
+        <div class="b-row"><span class="nm"><b>Keke's Breakfast Cafe</b> — clásico local, hecho al momento</span><span class="tg">sáb 9am</span></div>
+        <div class="b-row"><span class="nm">— Millenia, 4192 Conroy Rd (~10 min, de camino)</span><span class="tg">abre 7am</span></div>
+        <div class="b-row"><span class="nm"><b>First Watch</b> — desayuno/brunch de calidad</span><span class="tg">respaldo</span></div>
+      </div>
+      <p class="meta">Para el sábado antes del outlet: salir a desayunar ~9am y entrar al outlet cuando abre (10am). El hotel incluye desayuno, así que esto es por salir a comer bien. Keke's abre 7am todos los días (cierra 2:30pm); si hay fila, es que está bueno.</p>
+    </div>
+  </section>
+
+  <footer>Bitácora de viaje · Orlando · octubre 2026</footer>
+</main>
+
+<nav>
+  <div class="nav-in">
+    <button class="tab" data-v="hoy"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5L19 19M19 5l-1.5 1.5M6.5 17.5L5 19"/></svg>Hoy</button>
+    <button class="tab" data-v="dias"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 9h18M8 3v4M16 3v4"/></svg>Días</button>
+    <button class="tab" data-v="boletos"><svg viewBox="0 0 24 24"><path d="M3 8a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2 2 2 0 0 0 0 4 2 2 0 0 1-2 2H5a2 2 0 0 1-2-2 2 2 0 0 0 0-4z"/><path d="M14 6v12"/></svg>Boletos</button>
+    <button class="tab" data-v="compras"><svg viewBox="0 0 24 24"><path d="M6 7h12l-1 13H7L6 7z"/><path d="M9 7a3 3 0 0 1 6 0"/></svg>Compras</button>
+    <button class="tab" data-v="tips"><svg viewBox="0 0 24 24"><path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 0 0-4 10.5c.7.7 1 1.3 1 2.5h6c0-1.2.3-1.8 1-2.5A6 6 0 0 0 12 3z"/></svg>Tips</button>
+  </div>
+</nav>
+
+<script>
+  "use strict";
+  var TRIP = [
+    { dow:"Vie", d:2, tag:"llegada", ttl:"Llegada y primera noche", note:"Aterrizan 4:45 PM · carro ~6 PM · cena cubana",
+      items:[
+        ["4:45p","Aterrizan en MCO. Migración (Global Entry) → maletas en aduana → <b>People Mover</b> al edificio principal → renta en el <b>mismo edificio</b>, Nivel 1 lado A. <span>Carro listo ~5:45-6:00 PM.</span>"],
+        ["~6:00p","Rumbo al hotel. <b>T.J. Maxx</b> (Fun Spot Way) de paso si da el tiempo."],
+        ["tarde","Check-in en La Quinta, soltar maletas, descansar del vuelo."],
+        ["cena","<b>Cuba Libre</b> (International Dr, ~10 min) — cubano festivo, buen primer contacto con la zona."]
+      ]},
+    { dow:"Sáb", d:3, tag:"outlet + show", ttl:"Outlet día 1 + Cirque du Soleil", note:"Desayuno 9:00 → outlet 10:00 → Disney Springs → cena 6:15 → show 8:00",
+      items:[
+        ["9:00a","Desayuno fuera en <b>Keke's Breakfast Cafe</b> (clásico local, abre 7am). La de <b>Millenia (4192 Conroy Rd)</b> queda ~10 min, de camino. Respaldo: <b>First Watch</b>. El hotel incluye desayuno, así que es opcional."],
+        ["10:00a","<b>Outlet</b> (día 1) — abre a las 10. Ropa y calzado primero; casa y lo pesado al final."],
+        ["~4:45p","Salir del outlet hacia <b>Disney Springs</b> (~25-30 min). Más temprano de lo normal: la cena es antes del show."],
+        ["6:15p","Cena en <b>Wine Bar George</b> (reserva 634623). Al terminar (~7:45) caminar al teatro en West Side."],
+        ["8:00p","<b>Cirque du Soleil «Drawn to Life»</b> — Sección 102, Fila A, 7-8. Llegar ~15-20 min antes."]
+      ]},
+    { dow:"Dom", d:4, tag:"ciudad", ttl:"Winter Park y Downtown", note:"Mañana al aire libre, antes de la lluvia de tarde",
+      items:[
+        ["mañana","<b>Winter Park</b> — Park Avenue (calle peatonal, cafés) y, si quieren, el Scenic Boat Tour por los lagos (~1 h)."],
+        ["comida","<b>Black Bean Deli</b> (Winter Park) — sándwiches cubanos y medianoche; o algo en Park Avenue."],
+        ["tarde","<b>Downtown</b> — Lake Eola Park, vuelta al lago y skyline. Si llueve, se recorta."],
+        ["cena","<b>Numero Uno Cuban</b> (S Orange Ave) — puerco asado y frijoles negros; vale el trayecto."]
+      ]},
+    { dow:"Lun", d:5, tag:"outlet día 2", ttl:"Target, banco y segundo outlet", note:"Pendientes de la primera vuelta + lo que faltó",
+      items:[
+        ["8:00a","Salen del hotel → <b>Target Millenia</b> → <b>Wells Fargo Windermere</b> (trámite, abre 9:00)."],
+        ["9:30a","Regreso al <b>outlet</b> (día 2): pendientes, tiendas que faltaron, probarse con calma. Lane Bryant abre 11."],
+        ["al salir","<b>T.J. Maxx</b> (Fun Spot Way) de paso, si no se hizo el viernes."],
+        ["noche","Si queda ánimo: <b>ICON Park</b> (la rueda, vistas nocturnas) — no es parque temático. Cena ahí o en Restaurant Row."]
+      ]},
+    { dow:"Mar", d:6, tag:"salida", ttl:"Regreso a Cancún", note:"Corte de maletas 12:45 PM · salir del hotel 10:45-11:00",
+      items:[
+        ["10:45a","<b>Salir del hotel</b> (checkout 11:00). Devolver el auto en el <b>mismo edificio</b> de la terminal (sin tren) y subir a salidas."],
+        ["<12:45p","<b>Mostrador de Southwest</b> (no autoservicio) — corte duro de maletas 60 min antes del vuelo."],
+        ["1:45p","Vuelo <b>WN 0318</b> MCO → CUN, llega 2:50 PM."]
+      ]}
+  ];
+
+  var MONTH = 9, YEAR = 2026; // octubre 2026 (0-indexed)
+  function todayInfo(){
+    var now = new Date();
+    var y = now.getFullYear(), m = now.getMonth(), d = now.getDate();
+    // index into TRIP by date; null if outside
+    if (y===YEAR && m===MONTH){
+      for (var i=0;i<TRIP.length;i++){ if (TRIP[i].d===d) return {phase:"during", idx:i}; }
+      if (d < TRIP[0].d){ return {phase:"before", days: TRIP[0].d - d}; }
+      if (d > TRIP[TRIP.length-1].d){ return {phase:"after"}; }
+    }
+    // rough before/after for other months of 2026
+    var start = new Date(YEAR, MONTH, TRIP[0].d);
+    var diff = Math.round((start - new Date(y,m,d))/86400000);
+    if (diff>0) return {phase:"before", days:diff};
+    return {phase:"after"};
+  }
+
+  function dayCardHTML(t, i){
+    return '<button class="day" data-day="'+i+'">'+
+      '<span class="day-date">'+t.dow+'<b>'+t.d+'</b></span>'+
+      '<span class="day-body"><span class="day-ttl">'+t.ttl+'</span><span class="day-note">'+t.note+'</span></span>'+
+      '<span class="day-tag">'+t.tag+'</span></button>'+
+      '<div class="day-detail" id="dd'+i+'" hidden><ul>'+
+        t.items.map(function(it){return '<li><span class="t">'+it[0]+'</span><span class="d">'+it[1]+'</span></li>';}).join('')+
+      '</ul></div>';
+  }
+
+  function renderDays(){
+    document.getElementById('daysList').innerHTML = TRIP.map(dayCardHTML).join('');
+    document.querySelectorAll('#daysList .day').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        var i = btn.getAttribute('data-day');
+        var dd = document.getElementById('dd'+i);
+        var open = !dd.hidden;
+        dd.hidden = open; btn.classList.toggle('on', !open);
+      });
+    });
+  }
+
+  function renderHoy(){
+    var ti = todayInfo();
+    var el = document.getElementById('hoyBody');
+    var sub = document.getElementById('headSub');
+    var html = '';
+    if (ti.phase==="during"){
+      var t = TRIP[ti.idx];
+      sub.innerHTML = 'Día <b>'+(ti.idx+1)+'</b> de 5 · '+t.dow+' '+t.d+' oct';
+      html += '<div class="eyebrow">Hoy · '+t.dow+' '+t.d+' de octubre</div>';
+      html += '<h2 class="section-title">'+t.ttl+'</h2>';
+      html += '<p class="lead">'+t.note+'</p>';
+      html += '<div class="card"><ul style="margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:11px">'+
+        t.items.map(function(it){return '<li style="display:flex;gap:12px"><span class="mono" style="color:var(--accent);font-size:12px;flex:none;width:62px;padding-top:1px">'+it[0]+'</span><span>'+it[1]+'</span></li>';}).join('')+
+        '</ul></div>';
+      if (ti.idx+1 < TRIP.length){
+        var n = TRIP[ti.idx+1];
+        html += '<div class="eyebrow">Mañana</div><button class="day" data-goto="dias"><span class="day-date">'+n.dow+'<b>'+n.d+'</b></span><span class="day-body"><span class="day-ttl">'+n.ttl+'</span><span class="day-note">'+n.note+'</span></span><span class="day-tag">'+n.tag+'</span></button>';
+      }
+    } else if (ti.phase==="before"){
+      var first = TRIP[0];
+      sub.innerHTML = 'Faltan <b>'+ti.days+(ti.days===1?' día':' días')+'</b> · sale vie 2 oct';
+      html += '<div class="eyebrow">Antes de salir</div>';
+      html += '<h2 class="section-title">'+(ti.days===1?'El viaje es mañana':'Faltan '+ti.days+' días')+'</h2>';
+      html += '<p class="lead">Vuelo Southwest <b>CN2NS9</b>, sale de Cancún el viernes 2 a la 1:45 PM y llega a Orlando 4:45 PM. Todo lo grande ya está resuelto: vuelos, hotel, Cirque y la cena del sábado.</p>';
+      html += '<div class="card"><div class="tk-head"><h3>Antes de cerrar la maleta</h3></div>'+
+        '<div class="kv"><span class="k">Documentos</span><span class="v">Pasaportes · visas vigentes · Global Entry</span></div>'+
+        '<div class="kv"><span class="k">Equipaje</span><span class="v">Una maleta vacía para las compras</span></div>'+
+        '<div class="kv"><span class="k">Clima</span><span class="v">Ropa fresca + algo para lluvia de tarde</span></div>'+
+        '<div class="kv"><span class="k">Check-in</span><span class="v">Southwest 24 h antes (confirma grupo)</span></div></div>';
+      html += '<div class="note warn"><span class="ic">▲</span><div><b>Todo listo:</b> renta de auto ✅ (Hertz L726E7E8182), visas ✅ y KTN de Global Entry ✅.</div></div>';
+      html += '<div class="eyebrow">Primer día</div>'+dayCardShort(TRIP[0]);
+    } else {
+      sub.innerHTML = 'Viaje terminado · 2-6 oct';
+      html += '<div class="eyebrow">Orlando</div><h2 class="section-title">¡Buen viaje de regreso!</h2>'+
+        '<p class="lead">El viaje terminó. Revisa la pestaña Compras por si quedó algo para la détaxe... que en EE. UU. no existe 😉. Las pestañas Días y Boletos siguen aquí como registro.</p>';
+    }
+    el.innerHTML = html;
+    el.querySelectorAll('[data-goto]').forEach(function(b){ b.addEventListener('click',function(){ show('dias'); }); });
+  }
+  function dayCardShort(t){
+    return '<button class="day" data-goto="dias"><span class="day-date">'+t.dow+'<b>'+t.d+'</b></span><span class="day-body"><span class="day-ttl">'+t.ttl+'</span><span class="day-note">'+t.note+'</span></span><span class="day-tag">'+t.tag+'</span></button>';
+  }
+
+  var VIEWS = ["hoy","dias","boletos","compras","tips"];
+  function show(v){
+    if (VIEWS.indexOf(v)<0) v="hoy";
+    VIEWS.forEach(function(name){
+      document.getElementById('v-'+name).classList.toggle('active', name===v);
+    });
+    document.querySelectorAll('.tab').forEach(function(t){ t.classList.toggle('on', t.getAttribute('data-v')===v); });
+    try{ history.replaceState(null,'',' #'+v); }catch(e){ location.hash = v; }
+    window.scrollTo(0,0);
+  }
+  document.querySelectorAll('.tab').forEach(function(t){
+    t.addEventListener('click', function(){ show(t.getAttribute('data-v')); });
+  });
+
+  // theme toggle (per-viewer convenience)
+  (function(){
+    var btn = document.getElementById('themeBtn');
+    function sysDark(){ return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches; }
+    var saved=null; try{ saved = localStorage.getItem('orl-theme'); }catch(e){}
+    if (saved){ document.documentElement.setAttribute('data-theme', saved); }
+    btn.addEventListener('click', function(){
+      var cur = document.documentElement.getAttribute('data-theme');
+      var isDark = cur ? cur==='dark' : sysDark();
+      var next = isDark ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', next);
+      try{ localStorage.setItem('orl-theme', next); }catch(e){}
+    });
+  })();
+
+  renderDays();
+  renderHoy();
+  var start = (location.hash||'').replace(/[^a-z]/g,'');
+  show(VIEWS.indexOf(start)>=0 ? start : 'hoy');
+</script>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Hanken+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
